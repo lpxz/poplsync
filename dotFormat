@@ -1,0 +1,3 @@
+v [safe=true];
+v2 [safe=true];
+v -> v2 [op=T1.put];

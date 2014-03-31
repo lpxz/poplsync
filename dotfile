@@ -1,0 +1,22 @@
+ digraph graphname {
+    A [safe=true];
+     B [safe=true];
+      C [safe=true];
+       D [safe=true];
+       
+        E [safe=true];
+         F [safe=true];
+          G [safe=true];
+           H [safe=true];
+            I [safe=true];
+     A->B [op=T1.put];
+     A->C [op=T2.remove];
+     B->D [op=T1.get];
+     B->E [op=T2.remove];
+     D->G [op=T2.remove];
+     E->H [op=T1.get];
+     C->F [op=T1.put];
+     F->I [op=T1.get];
+    
+    
+ }
