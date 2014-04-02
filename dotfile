@@ -9,14 +9,14 @@
           G [safe=true];
            H [safe=true];
             I [safe=true];
-     A->B [op=T1.put];
-     A->C [op=T2.remove];
-     B->D [op=T1.get];
-     B->E [op=T2.remove];
-     D->G [op=T2.remove];
-     E->H [op=T1.get];
-     C->F [op=T1.put];
-     F->I [op=T1.get];
+     A->B [op=T1_put];
+     A->C [op=T2_remove];
+     B->D [op=T1_get];
+     B->E [op=T2_remove];
+     D->G [op=T2_remove];
+     E->H [op=T1_get];
+     C->F [op=T1_put];
+     F->I [op=T1_get];
     
     
  }

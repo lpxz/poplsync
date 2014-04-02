@@ -58,7 +58,10 @@ public class MachineImporter {
 				   for(String part : parts)
 				   {
 					   if(notIn(part, machine))
-						   addNode(part, machine, attributeMap);
+					   {
+						   State state= new State(part);
+						   addNode(part, state, machine, attributeMap);
+					   }
 				   }
 				   
 				   for(int i=0; i<= parts.length-2; i++)
@@ -110,8 +113,8 @@ public class MachineImporter {
          return !machine.in(start, end);
 	}
 	
-	private static void addNode(String part, Machine machine, Map attributeMap) {
-          machine.addNode(part, attributeMap);		
+	private static void addNode(String part, State state, Machine machine, Map attributeMap) {
+          machine.addNode(part, state, attributeMap);		
 	}
 
 	private static boolean notIn(String part, Machine machine) {

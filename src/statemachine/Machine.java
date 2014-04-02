@@ -107,15 +107,17 @@ public class Machine {
 	}
 
 	// assertion: the key must already be there!
-	public void addEdge(String start, String end, Map attributeMap) {
+	public Transition addEdge(String start, String end, Map attributeMap) {
 		State startS = mappings.get(start);
 		State endS = mappings.get(end);
 		Transition transition = coreG.addEdge_edgetype_lpxz(startS, endS,  Transition.class);
 
-		
-		Object opname = attributeMap.get(Keywords.op); 
-		if(opname!=null)
-			transition.setOpName((String)opname );
+		if(attributeMap!=null){
+			Object opname = attributeMap.get(Keywords.op); 
+			if(opname!=null)
+				transition.setOpName((String)opname);
+		}
+		return transition;
 	}
 
 	public boolean in(String start, String end) {
@@ -123,27 +125,35 @@ public class Machine {
 		State endS = mappings.get(end);
 		return coreG.containsEdge(startS, endS);
 	}
+	
+	public Transition addEdgeIfAbsent(String start, String end)// return the edge that you add, different from j.u.c semantic
+	{
+		if(!in(start,end))
+		{
+			return addEdge(start, end, null);
+		}
+		return null;
+	}
 
 	public HashMap<String,State> mappings  = new HashMap<String, State>();
-	public void addNode(String part, Map attributeMap) {
-         State state= new State(part);
-
-         Object safeorNot = attributeMap.get(Keywords.safe);
-         if(safeorNot!=null)
-         {
-        	 
-        	 if(safeorNot.equals("false"))
-        		 state.setSafe(false);
-        	 else {
-				state.setSafe(true);
-			}
-         }
+	public void addNode(String part, State state , Map attributeMap) {
         
+
+         if(attributeMap!=null){
+	         Object safeorNot = attributeMap.get(Keywords.safe);
+	         if(safeorNot!=null)
+	         {
+	        	 
+	        	 if(safeorNot.equals("false"))
+	        		 state.setSafe(false);
+	        	 else {
+					state.setSafe(true);
+				}
+	         }
+         }
          
          mappings.put(part, state);
          coreG.addVertex(state);
-         
-         
 	}
 	
 
@@ -151,4 +161,11 @@ public class Machine {
 		return mappings.containsKey(part);
 	}
 
+	public void addNodeIfAbsent(String part, State state) // shortcut
+	{
+		if(!in(part))
+		{
+			addNode(part, state, null);
+		}
+	}
 }

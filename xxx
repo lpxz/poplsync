@@ -1,0 +1,23 @@
+digraph G {
+  0[safe=true];
+  1[safe=true];
+  2[safe=true];
+  3[safe=true];
+  4[safe=true];
+  5[safe=true];
+  6[safe=true];
+  7[safe=true];
+  8[safe=true];
+  0 -> 1[op=T1_put,label=T1_put];
+  1 -> 2[op=T1_get,label=T1_get];
+  2 -> 3[op=T2_remove,label=T2_remove];
+  3 -> 4[op=T2_remove,label=T2_remove];
+  1 -> 5[op=T2_remove,label=T2_remove];
+  5 -> 3[op=T1_get,label=T1_get];
+  5 -> 6[op=T2_remove,label=T2_remove];
+  6 -> 4[op=T1_get,label=T1_get];
+  0 -> 7[op=T2_remove,label=T2_remove];
+  7 -> 5[op=T1_put,label=T1_put];
+  7 -> 8[op=T2_remove,label=T2_remove];
+  8 -> 6[op=T1_put,label=T1_put];
+}

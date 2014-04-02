@@ -15,7 +15,15 @@ import java.util.Set;
 
 public class State {
 
-
+    public Pair corePair =null; 
+    public void setCorePair(Pair detailsPairpara)
+    {
+    	corePair = detailsPairpara; 
+    }
+    public Pair getCorePair()
+    {
+    	return corePair;
+    }
 	
 	public static volatile int  counter = 0;
     public String name = null;
@@ -28,6 +36,13 @@ public class State {
     {
     	name = "_gen_" + (counter++);
     }
+    
+    
+    public void setName(String namepara)
+    {
+    	name = namepara;
+    }
+    
     
 	public String toString()
 	{
@@ -47,11 +62,16 @@ public class State {
 		return safe;
 	}
     
-	static String getNameForState(Object v) {
+	public static String getNameForState(Object v) {
 		
 			State state = (State)v;
-	        return state.toString();
+			return state.getName();
+//	        return state.toString();
 		
+	}
+	public  String getName()
+	{
+		return name;
 	}
 
 	public static void main(String[] args) {}
