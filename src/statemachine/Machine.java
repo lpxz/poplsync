@@ -10,18 +10,9 @@ import java.util.Set;
 
 
 
-
-
-
-
-
-
-
-
-
 import org.jgrapht.graph.DirectedPseudograph;
 
-import test.Test;
+import test.Test_Initial_Attempt;
 
 public class Machine {
 
@@ -61,7 +52,7 @@ public class Machine {
 				//manual hack for control
 				if(currentState.toString().equals("E"))
 				{
-					Test.map.put(Test.key, Test.key);
+					Test_Initial_Attempt.map.put(Test_Initial_Attempt.key, Test_Initial_Attempt.key);
 					currentState = this.mappings.get("F"); 
 				}
 				// manual control
