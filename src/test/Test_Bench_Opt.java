@@ -16,14 +16,14 @@ public class Test_Bench_Opt {
     
     // note that I change the remove() method so that it is longer than usual :)
     public static void main(String[] args) throws Exception {
-// smart: 40199
-// traditional:  3953
+// smart: 4003
+// traditional: 6401
 
     	final boolean useSmartSync = false; 
-    	final int numberOfT2 = 10; 
-    	final int numberOfIterations =1000;// 
+    	final int numberOfT2 = 8; 
+    	final int numberOfIterations =100;// 
     	final int internalCompute = 40; 
-    	final int randomRange = 50; // should not be sparse. If it is sparse, the traditional way is better.
+    	final int randomRange = 5000; // should not be sparse. If it is sparse, the traditional way is better.
     	final Random random = new Random(randomRange); 
         Thread t1 = new Thread() {
 
@@ -45,14 +45,15 @@ public class Test_Bench_Opt {
                         Object oo = map.getWithMonitor(key);
 //                        System.out.println(oo);
                     	}else {
-                    		synchronized (key) {
+                    		synchronized (map) {// to be fair. The smartSync does not distinguish keys.
 								
 							
                     		 map.put(key, key);
                              
-                             for(int j = 0; j <internalCompute ; j++ )
-                             {
-                             	System.out.print("");
+                    		 // timing:
+                             long tmp = System.currentTimeMillis(); 
+                             while( System.currentTimeMillis()-tmp  < internalCompute){
+                                 ;
                              }
                              
                              Object oo = map.get(key);
@@ -74,7 +75,7 @@ public class Test_Bench_Opt {
               			if(useSmartSync)
                          map.removeWithMonitor(key);
               			else {
-							synchronized (key) {
+							synchronized (map) {
 								 map.remove(key);
 							}
 						}
@@ -87,7 +88,9 @@ public class Test_Bench_Opt {
 //        System.out.println(t2.getId()); // 9
         
        
+        ConcurrentHashMap.T1ID = 8; // debug mode: change to  11 
         long starttime = System.currentTimeMillis(); 
+        System.out.println(t1.getId());
         t1.start();
         for(Thread t2: t2s) t2.start();
         

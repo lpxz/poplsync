@@ -1239,6 +1239,7 @@ public class ConcurrentHashMap
 
 public Object lastPut = null;   
   
+public static int T1ID = 8; // debug mode 11, normal mode : 8
 // problem: all the control code should be in the same atomic region of the the map APIs. 
 // now, let us assume there is no interleaving between the control and the API for simplicity.
 // yes, we never need to compare with the state 3. it is an doomed-to-be-safe state. 
@@ -1248,7 +1249,7 @@ public void putWithMonitor(Object key, Object key2) {
 	put(key, key2);
 	lastPut =key;// help remove()
 	
-	if(Thread.currentThread().getId()==8) // T1
+	if(Thread.currentThread().getId()==T1ID) // T1
 	{
 		currentState.compareAndSet(0, 1);
 		}
@@ -1263,7 +1264,7 @@ public Object getWithMonitor(Object key) {
 		;
 	Object ret =  get(key);
 
-	if(Thread.currentThread().getId()==1)
+	if(Thread.currentThread().getId()==T1ID)
 		currentState.compareAndSet(1, 3);
 	
   return ret;
@@ -1276,12 +1277,12 @@ public void removeWithMonitor(Object key) {
 	remove(key);
 	
 	// question: what if an interleaving happens here, and T1 starts to invoke get(), very bad: returns null!
-	if(Thread.currentThread().getId()==9)
+	if(Thread.currentThread().getId()!=T1ID)
 	{
 		currentState.compareAndSet(1, 2);// if unsuccessful -> 
 		currentState.compareAndSet(0, 3);
 		
-		if(currentState.get()==2)
+		if(currentState.get()==2) // 
 		{
 			// manual control, see also getWithMonitor() for the cooperative control. 
 			// do control here!! jump
